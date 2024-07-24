@@ -5,13 +5,14 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
 
-    // Constructor, Getters and Setters
+    // Constructor
     public Customer(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
 
+    // Getters and Setters
     public String getFirstName() {
         return firstName;
     }

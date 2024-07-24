@@ -1,12 +1,12 @@
 package se.alex.lexicon;
 
-import se.alex.lexicon.enums.VehicleType;
 import se.alex.lexicon.enums.SpotStatus;
+import se.alex.lexicon.enums.VehicleType;
 import se.alex.lexicon.model.Customer;
-import se.alex.lexicon.model.Vehicle;
 import se.alex.lexicon.model.ParkingLot;
 import se.alex.lexicon.model.ParkingSpot;
 import se.alex.lexicon.model.Reservation;
+import se.alex.lexicon.model.Vehicle;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -14,17 +14,17 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) {
         // Create a customer
-        Customer customer = new Customer("John", "Doe", "1234567890");
+        Customer customer = new Customer("Alex", "Youssef", "+467398798");
 
         // Create a vehicle
-        Vehicle vehicle = new Vehicle("ABC123", VehicleType.CAR);
+        Vehicle vehicle = new Vehicle("CBA321", VehicleType.CAR);
 
         // Create parking spots
         ParkingSpot spot1 = new ParkingSpot(1, SpotStatus.VACANT);
         ParkingSpot spot2 = new ParkingSpot(2, SpotStatus.VACANT);
 
         // Create a parking lot
-        ParkingLot parkingLot = new ParkingLot("Area51", Arrays.asList(spot1, spot2));
+        ParkingLot parkingLot = new ParkingLot("Zone 3", Arrays.asList(spot1, spot2));
 
         // Create a reservation
         LocalDateTime startTime = LocalDateTime.now();
