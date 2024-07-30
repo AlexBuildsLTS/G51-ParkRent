@@ -49,7 +49,7 @@ public class App {
         // Delete a reservation
         reservationDao.delete(3);
 
-        // Find and print all customers
+
         System.out.println("All customers:");
         System.out.println(customerDao.findById(1));
         System.out.println(customerDao.findById(2));
