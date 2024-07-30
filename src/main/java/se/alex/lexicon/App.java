@@ -60,7 +60,7 @@ public class App {
         System.out.println("Found reservation: " + foundReservation);
 
         // Update an existing reservation
-        reservation2.setTime("12:00");
+        reservation2.setTime("13:00");
         reservationDao.save(reservation2);
 
         // Find and print all reservations after update
