@@ -1,25 +1,24 @@
 package se.alex.lexicon.model;
 
-import se.alex.lexicon.enums.VehicleType;
-
 public class Vehicle {
+    private int id;
     private String licensePlate;
-    private VehicleType type; // Type of the vehicle
-    private Customer owner;
+    private VehicleType type;
 
-    // Constructor to initialize a vehicle with a license plate and type
-    public Vehicle(String licensePlate, VehicleType type) {
+    public Vehicle(int id, String licensePlate, VehicleType type) {
+        this.id = id;
         this.licensePlate = licensePlate;
         this.type = type;
     }
 
-    // Constructor to initialize a vehicle with a license plate, type, and owner
-    public Vehicle(String licensePlate, VehicleType type, Customer owner) {
-        this(licensePlate, type); // Chaining constructor
-        this.owner = owner;
+    public int getId() {
+        return id;
     }
 
-    // Getters and setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getLicensePlate() {
         return licensePlate;
     }
@@ -36,23 +35,12 @@ public class Vehicle {
         this.type = type;
     }
 
-    public Customer getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Customer owner) {
-        this.owner = owner;
-    }
-
-    // Returns a string representation of the vehicle
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Vehicle{")
-                .append("licensePlate='").append(licensePlate).append('\'')
-                .append(", type=").append(type)
-                .append(", owner=").append(owner)
-                .append('}');
-        return sb.toString();
+        return "Vehicle{" +
+                "id=" + id +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

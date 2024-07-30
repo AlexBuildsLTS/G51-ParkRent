@@ -5,11 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationDaoImpl implements ReservationDao {
-    private List<Reservation> reservations = new ArrayList<>();
+    private final List<Reservation> reservations = new ArrayList<>();
+
+    @Override
+    public void create(Reservation reservation) {
+        reservations.add(reservation);
+        System.out.println("Reservation created: " + reservation);
+    }
 
     @Override
     public Reservation save(Reservation reservation) {
         reservations.add(reservation);
+        System.out.println("Reservation saved: " + reservation);
         return reservation;
     }
 
@@ -29,5 +36,6 @@ public class ReservationDaoImpl implements ReservationDao {
     @Override
     public void delete(int reservationId) {
         reservations.removeIf(reservation -> reservation.getReservationId() == reservationId);
+        System.out.println("Reservation deleted with ID: " + reservationId);
     }
 }

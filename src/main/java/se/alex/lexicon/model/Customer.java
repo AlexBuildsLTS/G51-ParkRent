@@ -1,24 +1,22 @@
 package se.alex.lexicon.model;
 
 public class Customer {
-    private int customerId; // Unique identifier for the customer
-    private String name; // Customer's name
-    private String phoneNumber; // Customer's phone number
+    private int id;
+    private String name;
+    private String phoneNumber;
 
-    // Constructor to initialize a customer
-    public Customer(int customerId, String name, String phoneNumber) {
-        this.customerId = customerId;
+    public Customer(int id, String name, String phoneNumber) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
 
-    // Getters and setters
-    public int getCustomerId() {
-        return customerId;
+    public int getId() {
+        return id;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,15 +35,12 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    // Returns a string representation of the customer
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Customer{")
-                .append("customerId=").append(customerId)
-                .append(", name='").append(name).append('\'')
-                .append(", phoneNumber='").append(phoneNumber).append('\'')
-                .append('}');
-        return sb.toString();
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

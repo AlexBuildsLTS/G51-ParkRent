@@ -1,33 +1,46 @@
 package se.alex.lexicon.dao;
 
 import se.alex.lexicon.model.Vehicle;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class VehicleDaoImpl implements VeichleDao {
-    private final List<Vehicle> vehicles = new ArrayList<>();
+public class VehicleDaoImpl implements VehicleDao {
+    private final Map<Integer, Vehicle> vehicles = new HashMap<>();
 
     @Override
-    public Vehicle save(Vehicle vehicle) {
-        vehicles.add(vehicle);
-        return vehicle;
+    public void create(Vehicle vehicle) {
+        validateVehicle(vehicle);
+        vehicles.put(vehicle.getId(), vehicle);
+        System.out.println("Vehicle created: " + vehicle);
     }
 
     @Override
-    public Vehicle findById(String licensePlate) {
-        return vehicles.stream()
-                .filter(vehicle -> vehicle.getLicensePlate().equals(licensePlate))
-                .findFirst()
-                .orElse(null);
+    public Vehicle findById(int id) {
+        return vehicles.get(id);
     }
 
     @Override
-    public List<Vehicle> findAll() {
-        return new ArrayList<>(vehicles);
+    public void update(Vehicle vehicle) {
+        validateVehicle(vehicle);
+        vehicles.put(vehicle.getId(), vehicle);
+        System.out.println("Vehicle updated: " + vehicle);
     }
 
     @Override
-    public void delete(String licensePlate) {
-        vehicles.removeIf(vehicle -> vehicle.getLicensePlate().equals(licensePlate));
+    public void delete(int id) {
+        vehicles.remove(id);
+        System.out.println("Vehicle deleted with ID: " + id);
+    }
+
+    private void validateVehicle(Vehicle vehicle) {
+        if (vehicle == null) {
+            throw new IllegalArgumentException("Vehicle must not be null");
+        }
+        if (vehicle.getLicensePlate() == null || vehicle.getLicensePlate().isEmpty()) {
+            throw new IllegalArgumentException("Vehicle license plate must not be null or empty");
+        }
+        if (vehicle.getType() == null) {
+            throw new IllegalArgumentException("Vehicle type must not be null");
+        }
     }
 }

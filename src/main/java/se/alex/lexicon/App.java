@@ -1,92 +1,77 @@
 package se.alex.lexicon;
 
 import se.alex.lexicon.dao.*;
-import se.alex.lexicon.enums.SpotStatus;
-import se.alex.lexicon.enums.VehicleType;
 import se.alex.lexicon.model.*;
-
-import java.time.LocalDateTime;
 
 public class App {
     public static void main(String[] args) {
-        // Create DAOs
-        CustomerDao customerDao = new CustomerDaoImpl();
-        VeichleDao veichleDao = new VehicleDaoImpl();
-        ParkingSpotDao parkingSpotDao = new ParkingSpotDaoImpl();
+
+        // Instantiate DAO implementations
         ReservationDao reservationDao = new ReservationDaoImpl();
+        ParkingSpotDao parkingSpotDao = new ParkingSpotDaoImpl();
+        VehicleDao vehicleDao = new VehicleDaoImpl();
+        CustomerDao customerDao = new CustomerDaoImpl();
 
-        // Create a customer
-        Customer customer = new Customer(1, "Alex Youssef", "+467398798");
-        customerDao.save(customer);
-
-        // Create a vehicle
-        Vehicle vehicle = new Vehicle("CBA321", VehicleType.CAR, customer);
-        veichleDao.save(vehicle);
-
-        // Create parking spots
-        ParkingSpot spot1 = new ParkingSpot(1, SpotStatus.VACANT, "Zone 3");
-        ParkingSpot spot2 = new ParkingSpot(2, SpotStatus.VACANT, "Zone 3");
-        parkingSpotDao.save(spot1);
-        parkingSpotDao.save(spot2);
-
-        // Create a reservation
-        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime endTime = startTime.plusHours(2);
-        Reservation reservation = new Reservation(1, customer.getCustomerId(), customer.getName(),
-                customer.getPhoneNumber(), vehicle, spot1, startTime, endTime);
-        reservationDao.save(reservation);
-
-        // Output reservation details
-        System.out.println(reservation);
-
-        // Mark the parking spot as occupied
-        spot1.setStatus(SpotStatus.OCCUPIED);
-        parkingSpotDao.save(spot1);
-        System.out.println("Parking Spot Status: " + spot1.getStatus());
-
-        // List all customers
-        System.out.println("All Customers:");
-        for (Customer c : customerDao.findAll()) {
-            System.out.println(c);
+        // Create and save parking spots, respecting the limit of 10
+        try {
+            for (int i = 1; i <= 10; i++) {
+                ParkingSpot spot = new ParkingSpot(i, SpotStatus.AVAILABLE);
+                parkingSpotDao.create(spot);
+            }
+        } catch (IllegalStateException e) {
+            System.err.println(e.getMessage());
         }
 
-        // List all vehicles
-        System.out.println("All Vehicles:");
-        for (Vehicle v : veichleDao.findAll()) {
-            System.out.println(v);
-        }
+        // Creates new Customers
+        Customer customer1 = new Customer(1, "Alex Youssef", "076987987");
+        customerDao.create(customer1);
+        Customer customer2 = new Customer(2, "Sandra", "073300309");
+        customerDao.create(customer2);
+        Customer customer3 = new Customer(3, "Johnny Reinfield", "072440303");
+        customerDao.create(customer3);
 
-        // List all parking spots
-        System.out.println("All Parking Spots:");
-        for (ParkingSpot ps : parkingSpotDao.findAll()) {
-            System.out.println(ps);
-        }
+        // Create and save new reservations
+        Reservation reservation1 = new Reservation(1, "Alex Youssef", "2024-07-30", "12:00");
+        reservationDao.create(reservation1);
+        Reservation reservation2 = new Reservation(2, "Sandra Orlovic", "2024-07-30", "11:00");
+        reservationDao.create(reservation2);
+        Reservation reservation3 = new Reservation(3, "Johnny Reinfield", "2024-07-30", "14:00");
+        reservationDao.create(reservation3);
 
-        // List all reservations
-        System.out.println("All Reservations:");
-        for (Reservation r : reservationDao.findAll()) {
-            System.out.println(r);
-        }
+        // Create and save new vehicles
+        Vehicle vehicle1 = new Vehicle(1, "ABC123", VehicleType.CAR);
+        vehicleDao.create(vehicle1);
+        Vehicle vehicle2 = new Vehicle(2, "DEF456", VehicleType.TRUCK);
+        vehicleDao.create(vehicle2);
+        Vehicle vehicle3 = new Vehicle(3, "GHI789", VehicleType.ELECTRIC);
+        vehicleDao.create(vehicle3);
 
-        // Delete the vehicle
-        veichleDao.delete("CBA321");
-        System.out.println("Vehicle deleted. All Vehicles after deletion:");
-        for (Vehicle v : veichleDao.findAll()) {
-            System.out.println(v);
-        }
+        // Delete a reservation
+        reservationDao.delete(3);
 
-        // Delete the customer
-        customerDao.delete(1);
-        System.out.println("Customer deleted. All Customers after deletion:");
-        for (Customer c : customerDao.findAll()) {
-            System.out.println(c);
-        }
+        // Find and print all customers
+        System.out.println("All customers:");
+        System.out.println(customerDao.findById(1));
+        System.out.println(customerDao.findById(2));
+        System.out.println(customerDao.findById(3));
 
-        // Delete the reservation
-        reservationDao.delete(1);
-        System.out.println("Reservation deleted. All Reservations after deletion:");
-        for (Reservation r : reservationDao.findAll()) {
-            System.out.println(r);
-        }
+        // Find and print a specific reservation
+        Reservation foundReservation = reservationDao.findById(2);
+        System.out.println("Found reservation: " + foundReservation);
+
+        // Update an existing reservation
+        reservation2.setTime("12:00");
+        reservationDao.save(reservation2);
+
+        // Find and print all reservations after update
+        System.out.println("All reservations after update:");
+        reservationDao.findAll().forEach(System.out::println);
+
+        // Delete a reservation again to ensure correct behavior
+        reservationDao.delete(3);
+
+        // Find and print all reservations after deletion
+        System.out.println("All reservations after deletion:");
+        reservationDao.findAll().forEach(System.out::println);
     }
 }
