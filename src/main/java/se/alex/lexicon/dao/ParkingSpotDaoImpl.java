@@ -3,16 +3,17 @@ package se.alex.lexicon.dao;
 import se.alex.lexicon.model.ParkingSpot;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ParkingSpotDaoImpl implements ParkingSpotDao {
-
-        private static final int MAX_SPOTS = 10; //
-        private final Map<Integer, ParkingSpot> parkingSpots = new HashMap<>();
+    private static final int MAX_SPOTS = 10; // Define the maximum number of spots
+    private final Map<Integer, ParkingSpot> parkingSpots = new HashMap<>();
 
     @Override
     public void create(ParkingSpot parkingSpot) {
         if (getTotalSpots() >= MAX_SPOTS) {
-            throw new IllegalStateException("maximum limit reached");
+            throw new IllegalStateException("Cannot create more parking spots, maximum limit reached");
         }
         validateParkingSpot(parkingSpot);
         parkingSpots.put(parkingSpot.getId(), parkingSpot);
@@ -35,6 +36,11 @@ public class ParkingSpotDaoImpl implements ParkingSpotDao {
     public void delete(int id) {
         parkingSpots.remove(id);
         System.out.println("Parking spot deleted with ID: " + id);
+    }
+
+    @Override
+    public List<ParkingSpot> findAll() {
+        return new ArrayList<>(parkingSpots.values());
     }
 
     @Override

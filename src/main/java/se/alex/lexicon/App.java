@@ -12,14 +12,14 @@ public class App {
         VehicleDao vehicleDao = new VehicleDaoImpl();
         CustomerDao customerDao = new CustomerDaoImpl();
 
-        // Create and save parking spots, respecting the limit of 10
-        try {
-            for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 15; i++) { //
+            try {
                 ParkingSpot spot = new ParkingSpot(i, SpotStatus.AVAILABLE);
                 parkingSpotDao.create(spot);
+            } catch (IllegalStateException e) {
+                System.err.println(e.getMessage());
+                break;
             }
-        } catch (IllegalStateException e) {
-            System.err.println(e.getMessage());
         }
 
         // Creates new Customers
@@ -27,7 +27,7 @@ public class App {
         customerDao.create(customer1);
         Customer customer2 = new Customer(2, "Sandra", "073300309");
         customerDao.create(customer2);
-        Customer customer3 = new Customer(3, "Johnny Reinfield", "072440303");
+        Customer customer3 = new Customer(3, "Johnny Reinfield", "073300309");
         customerDao.create(customer3);
 
         // Create and save new reservations

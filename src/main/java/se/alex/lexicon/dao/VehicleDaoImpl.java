@@ -3,6 +3,8 @@ package se.alex.lexicon.dao;
 import se.alex.lexicon.model.Vehicle;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 public class VehicleDaoImpl implements VehicleDao {
     private final Map<Integer, Vehicle> vehicles = new HashMap<>();
@@ -30,6 +32,11 @@ public class VehicleDaoImpl implements VehicleDao {
     public void delete(int id) {
         vehicles.remove(id);
         System.out.println("Vehicle deleted with ID: " + id);
+    }
+
+    @Override
+    public List<Vehicle> findAll() {
+        return new ArrayList<>(vehicles.values());
     }
 
     private void validateVehicle(Vehicle vehicle) {
